@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="result-page">
+
+
+    {% if message %}
+
+    <div class="alert success">
+        ✅ {{ message }}
+    </div>
+
+    {% endif %}
+
+
+    <section class="card user-summary">
+
+        <div class="section-title">
+
+            <span class="section-icon">
+                👤
+            </span>
+
+            <div>
+
+                <h2>
+                    Your Fitness Profile
+                </h2>
+
+                <p>
+                    Personalized information used by FitBuddy.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="profile-grid">
+
+            <div>
+                <span>Name</span>
+                <strong>{{ user.name }}</strong>
+            </div>
+
+            <div>
+                <span>User ID</span>
+                <strong>{{ user.user_id }}</strong>
+            </div>
+
+            <div>
+                <span>Age</span>
+                <strong>{{ user.age }}</strong>
+            </div>
+
+            <div>
+                <span>Weight</span>
+                <strong>{{ user.weight }} kg</strong>
+            </div>
+
+            <div>
+                <span>Goal</span>
+                <strong>{{ user.goal }}</strong>
+            </div>
+
+            <div>
+                <span>Intensity</span>
+                <strong>{{ user.intensity|capitalize }}</strong>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="card plan-card">
+
+        <div class="section-title">
+
+            <span class="section-icon">
+                🏋️
+            </span>
+
+            <div>
+
+                <h2>
+                    Your 7-Day Workout Plan
+                </h2>
+
+                <p>
+                    Generated specifically for your profile.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="plan-output">
+
+            <pre>{{ plan.updated_plan or plan.original_plan }}</pre>
+
+        </div>
+
+    </section>
+
+
+    <section class="card nutrition-card">
+
+        <div class="section-title">
+
+            <span class="section-icon">
+                🥗
+            </span>
+
+            <div>
+
+                <h2>
+                    Nutrition & Recovery Tip
+                </h2>
+
+                <p>
+                    AI-generated guidance for your goal.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="tip-box">
+
+            {{ plan.nutrition_tip }}
+
+        </div>
+
+    </section>
+
+
+    <section class="card feedback-card">
+
+        <div class="section-title">
+
+            <span class="section-icon">
+                🔄
+            </span>
+
+            <div>
+
+                <h2>
+                    Improve Your Plan
+                </h2>
+
+                <p>
+                    Tell FitBuddy what you want to change.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <form action="/submit-feedback" method="post">
+
+            <input type="hidden" name="user_id" value="{{ user.user_id }}">
+
+
+            <div class="form-group">
+
+                <label for="feedback">
+                    Your Feedback
+                </label>
+
+                <textarea id="feedback" name="feedback" rows="6"
+                    placeholder="Example: Add more cardio, reduce leg exercises, include another rest day..."
+                    required></textarea>
+
+            </div>
+
+
+            <button type="submit" class="primary-button">
+
+                🤖 Update Plan with AI
+
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <div class="actions">
+
+        <a href="/" class="secondary-button">
+            ← Create Another Plan
+        </a>
+
+        <a href="/view-all-users" class="secondary-button">
+            View Admin Dashboard →
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="admin-page">
+
+    <section class="admin-header">
+
+        <div>
+
+            <div class="badge">
+                🔐 ADMIN DASHBOARD
+            </div>
+
+            <h1>
+                All Users & Workout Plans
+            </h1>
+
+            <p>
+                View registered FitBuddy users and their
+                generated plans.
+            </p>
+
+        </div>
+
+        <a href="/" class="secondary-button">
+            + New User
+        </a>
+
+    </section>
+
+
+    {% if records|length == 0 %}
+
+    <section class="card empty-state">
+
+        <div class="empty-icon">
+            📋
+        </div>
+
+        <h2>
+            No users yet
+        </h2>
+
+        <p>
+            Generate your first FitBuddy plan from the
+            homepage.
+        </p>
+
+        <a href="/" class="primary-button inline-button">
+            Create First Plan
+        </a>
+
+    </section>
+
+    {% else %}
+
+
+    <div class="user-count">
+
+        Total Users:
+        <strong>{{ records|length }}</strong>
+
+    </div>
+
+
+    <div class="admin-table-wrapper">
+
+        <table class="admin-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        User ID
+                    </th>
+
+                    <th>
+                        Name
+                    </th>
+
+                    <th>
+                        Age
+                    </th>
+
+                    <th>
+                        Weight
+                    </th>
+
+                    <th>
+                        Goal
+                    </th>
+
+                    <th>
+                        Intensity
+                    </th>
+
+                    <th>
+                        Original Plan
+                    </th>
+
+                    <th>
+                        Updated Plan
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for record in records %}
+
+                <tr>
+
+                    <td>
+                        <strong>
+                            {{ record.user.user_id }}
+                        </strong>
+                    </td>
+
+                    <td>
+                        {{ record.user.name }}
+                    </td>
+
+                    <td>
+                        {{ record.user.age }}
+                    </td>
+
+                    <td>
+                        {{ record.user.weight }} kg
+                    </td>
+
+                    <td>
+                        {{ record.user.goal }}
+                    </td>
+
+                    <td>
+
+                        <span class="intensity-badge">
+                            {{ record.user.intensity|capitalize }}
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        {% if record.plan %}
+
+                        <details>
+
+                            <summary>
+                                View Original
+                            </summary>
+
+                            <pre class="table-plan">{{ record.plan.original_plan }}</pre>
+
+                        </details>
+
+                        {% else %}
+
+                        N/A
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        {% if record.plan and record.plan.updated_plan %}
+
+                        <details>
+
+                            <summary>
+                                View Updated
+                            </summary>
+
+                            <pre class="table-plan">{{ record.plan.updated_plan }}</pre>
+
+                        </details>
+
+                        {% else %}
+
+                        <span class="not-updated">
+                            Not updated
+                        </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
